@@ -8,8 +8,8 @@ from analogio import AnalogIn
 import adafruit_io
 
 # Network 'Hotspot' settings
-ESSID    = 'nasa'
-PASSWORD = 'mars-adventure'
+ESSID    = 'Ellipsis Jetpack 1C7B'
+PASSWORD = 'f8ff0351'
 
 #-Adafruit IO settings
 USER_NAME = "donblair" #PLEASE CHANGE TO YOUR AIO USERNAME
