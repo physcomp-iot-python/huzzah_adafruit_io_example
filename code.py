@@ -2,6 +2,7 @@ import board
 import digitalio
 import machine
 import time
+import sys
 from analogio import AnalogIn
 
 import adafruit_io
@@ -23,6 +24,9 @@ analog_feed = adafruit_io.Feed(user_name = USER_NAME,
                                key = AIO_KEY,
                                feed_name = ANALOG_FEED_NAME,
                                )
+print("Feed: {}".format(ANALOG_FEED_NAME))
+print("headers: {}".format(analog_feed.headers))
+print("post_url: {}".format(analog_feed.post_url))
 
 # some utility functions
 def get_adc():
@@ -50,13 +54,22 @@ def do_connect(essid=ESSID,password=PASSWORD):
 ################################################################################
 # Main
 ################################################################################
+#wait for 5 seconds so that ampy get get started if needed
+time.sleep(5.0)
+
 do_connect() #connect to network
 
 while True:
     try:
         adc_value = get_adc()
+        print("adc: %0.3f" % adc_value)
         analog_feed.post(adc_value)
-        blink(2.0)
+        blink(0.5)
+    except KeyboardInterrupt:
+        # this is needed for ampy and other REPL interactions to work with this
+        # generic error handler
+        raise KeyboardInterrupt
     except Exception as exc:
         print("Caught: {}".format(repr(exc)))
+        blink(0.5)
 
